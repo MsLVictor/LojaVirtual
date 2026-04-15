@@ -10,45 +10,55 @@ public class CategoriaService(ICategoriaRepository categoriaRepository) : ICateg
 {
     public void AdicionarCategoria(CategoriaDTO dto)
     {
-
-        var pesquisaCategoria = categoriaRepository.ListarCategorias().FirstOrDefault(c => c.Nome.ToLower() == dto.nome.ToLower());
-        
-        if(pesquisaCategoria != null)
+        if (categoriaRepository.ExisteNome(dto.Nome))
         {
-            System.Console.WriteLine("Categoria já existe.");
+            Console.WriteLine("Categoria já existe .");
             return;
         }
 
-        if(dto.nome.Count() >= 2 || dto.nome.Count() <= 60)
+        //mover para menu
+        if (dto.Nome.Length < 2 || dto.Nome.Length > 60)
         {
-            categoriaRepository.AdicionarCategoria(new Categoria(dto.nome));
-            System.Console.WriteLine("Categoria adicionada com sucesso!");
+            Console.WriteLine("Categoria inválida, tem que ter de 2 a 60 caracteres.");
             return;
         }
 
-        System.Console.WriteLine("Categoria inválida, tem que ter de 2 a 60 caracteres.");
-        return;
+        categoriaRepository.AdicionarCategoria(new Categoria(dto.Nome));
+        Console.WriteLine("Categoria adicionada com sucesso!");
     }
 
     public void AlterarNome(CategoriaDTO dto)
     {
-        var pesquisaCategoria = categoriaRepository.ListarCategorias().FirstOrDefault(c => c.Nome.ToLower() == dto.nome.ToLower());
+        var pesquisaCategoria = categoriaRepository.ListarCategorias().FirstOrDefault(c => c.Nome.ToLower() == dto.Nome.ToLower());
 
-        if(pesquisaCategoria != null)
+        if (pesquisaCategoria != null)
         {
-            System.Console.WriteLine("Nome da categoria não pode ser atualizado pois já existe uma categoria com o mesmo nome.");
+            Console.WriteLine("Nome da categoria não pode ser atualizado pois já existe uma categoria com o mesmo Nome.");
             return;
         }
 
 
+        System.Console.WriteLine("Nome da categoria atualizado com sucesso!");
+
+        pesquisaCategoria.MudarNome(dto.Nome);
+    }
+
+    public Categoria BuscarCategoriaPorId(int id)
+    {
+        var categoria = categoriaRepository.BuscarPorId(id);
+
+        return categoria;
     }
 
     public void ExcluirCategoriaPorId(int id)
     {
-        throw new NotImplementedException();
+        var CategoriaParaExcluir = categoriaRepository.BuscarPorId(id);
+
+        categoriaRepository.ExcluirCategoria(CategoriaParaExcluir);
     }
+
 
     public List<Categoria> ListarCategorias() => categoriaRepository.ListarCategorias();
 
-    
+
 }

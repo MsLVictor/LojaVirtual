@@ -10,6 +10,11 @@ public class CategoriaRepository : ICategoriaRepository
     public void AdicionarCategoria(Categoria categoria) => _categorias.Add(categoria);
 
     public List<Categoria> ListarCategorias() => _categorias.Where(c => c.Status == Enums.StatusCategoriaEnum.Ativo).ToList();
-    public void ExcluirCategoria(Categoria categoria) => _categorias.Remove(categoria);
+
+    public Categoria BuscarPorId(int id) => _categorias.FirstOrDefault(c => c.Id == id);
+    
+    public bool ExisteNome(string nome) => _categorias.Any(c => c.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase));
+
+    public void ExcluirCategoria(Categoria categoria) => categoria.MudarStatus(Enums.StatusCategoriaEnum.Inativo);
 }
 
