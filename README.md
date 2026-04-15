@@ -8,6 +8,7 @@ O sistema tem como objetivo gerenciar as operações básicas de uma loja virtua
 
 2. Cadastro de Categorias
 O sistema deve permitir o cadastro de categorias para organizar os produtos do catálogo. Cada categoria possui um nome obrigatório, com no mínimo 2 e no máximo 60 caracteres, e não podem existir duas categorias com o mesmo nome, desconsiderando diferenças entre maiúsculas e minúsculas. Toda categoria recém-cadastrada deve iniciar em estado ativo.
+
 A listagem de categorias deve retornar apenas as categorias ativas, exibindo junto a cada uma a quantidade de produtos ativos vinculados. A consulta individual deve retornar os dados da categoria acrescidos da lista de seus produtos ativos. A atualização deve permitir apenas a alteração do nome, revalidando a unicidade antes de persistir.
 A exclusão de uma categoria é proibida enquanto existirem produtos ativos vinculados a ela, devendo o sistema retornar uma mensagem explicativa nesse caso. Quando não houver produtos ativos vinculados, a exclusão deve ser lógica, ou seja, o sistema deve apenas marcar a categoria como inativa, sem removê-la fisicamente do banco de dados.
 
